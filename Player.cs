@@ -19,6 +19,7 @@ namespace Battleship_
 
         public Player()
         {
+            WritePlayerName();
             Map = new GameBoard();
             EnemyMap = new GameBoard();
             Fleet.Add(Destroyer);
@@ -28,14 +29,28 @@ namespace Battleship_
             PlaceShips();
         }
 
-        public void FireShot()
+        public int FireShotRow()
         {
+            int fireRow;
+            DisplayEnemyMap();
+            Console.WriteLine("Where would you like to fire your shot:");
+            fireRow = SelectRowCoordinate();
+            return fireRow;
 
         }
-        
+        public int FireShotColumn()
+        {
+            int fireColumn;
+            fireColumn = SelectColumnCoordinate(EnemyMap);
+            return fireColumn;
+        }
         public void DisplayMap()
         {
             Map.DisplayBoard();
+        }
+        public void DisplayEnemyMap()
+        {
+            EnemyMap.DisplayBoard();
         }
         public void PlaceShips()
         {
