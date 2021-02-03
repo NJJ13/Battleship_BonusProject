@@ -10,8 +10,7 @@ namespace Battleship_
     {
         static void Main(string[] args)
         {
-            GameBoard board = new GameBoard();
-            board.DisplayBoard();
+            Player player = new Player();
             Console.ReadLine();
         }
     }

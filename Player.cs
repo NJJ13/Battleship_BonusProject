@@ -78,11 +78,11 @@ namespace Battleship_
                         DisplayMap();
                         if (position == "H")
                         {
-                            columnCoordinate = SelectNextColumnCoordinate(columnCoordinate);
+                            columnCoordinate = SelectNextColumnCoordinate(rowCoordinate, columnCoordinate);
                         }
                         if (position == "V")
                         {
-                            rowCoordinate = SelectNextRowCoordinate(rowCoordinate);
+                            rowCoordinate = SelectNextRowCoordinate(rowCoordinate, columnCoordinate);
                         }
                         if (Map.radar[rowCoordinate, columnCoordinate] == "| . |")
                         {
@@ -141,32 +141,48 @@ namespace Battleship_
             letterNumerical = board.LettersToNumberCoordinate(letterCoordinate);
             return letterNumerical;
         }
-        public int SelectNextRowCoordinate(int previousRowCoordinate)
+        public int SelectNextRowCoordinate(int previousRowCoordinate, int previousColumnCoordinate)
         {
-            string numberCoordinate;
-            int nextCoordinate;
+            string numberRowCoordinate;
+            int nextRowCoordinate;
             do
             {
-                Console.WriteLine("Please select the next consecutive row: " + previousRowCoordinate-- + " or " + previousRowCoordinate++);
+                Console.WriteLine("Please select the next consecutive row:");
+                if((previousRowCoordinate-1) > 0)
+                {
+                    Console.WriteLine((previousRowCoordinate - 1));
+                }
+                if ((previousRowCoordinate+1) < 21)
+                {
+                    Console.WriteLine((previousRowCoordinate + 1));
+                }
                 Console.WriteLine("(The coordinate must be an open coordinate)");
-                numberCoordinate = Console.ReadLine();
-                nextCoordinate = int.Parse(numberCoordinate);
-                 
-            } while (nextCoordinate != previousRowCoordinate-- && nextCoordinate != previousRowCoordinate++);
-            return nextCoordinate;
+                numberRowCoordinate = Console.ReadLine();
+                nextRowCoordinate = int.Parse(numberRowCoordinate);
+                
+            } while (BoardValidator(nextRowCoordinate, previousColumnCoordinate) != "Valid");
+            return nextRowCoordinate;
         }
-        public int SelectNextColumnCoordinate(int previousColumnCoordinate)
+        public int SelectNextColumnCoordinate(int previousRowCoordinate, int previousColumnCoordinate)
         {
             string letterCoordinate;
-            int nextCoordinate;
+            int nextColumnCoordinate;
             do
             {
-                Console.WriteLine("Please select the next consecutive column: " + Map.NumbertoLetterCoordinate(previousColumnCoordinate--) + " or " + Map.NumbertoLetterCoordinate(previousColumnCoordinate++));
+                Console.WriteLine("Please select the next consecutive column: " + Map.NumbertoLetterCoordinate((previousColumnCoordinate-1)) + " or " + Map.NumbertoLetterCoordinate((previousColumnCoordinate+1)));
+                if ((previousColumnCoordinate - 1) > 0)
+                {
+                    Console.WriteLine(Map.NumbertoLetterCoordinate((previousColumnCoordinate - 1)));
+                }
+                if ((previousColumnCoordinate + 1) < 21)
+                {
+                    Console.WriteLine(Map.NumbertoLetterCoordinate((previousColumnCoordinate + 1)));
+                }
                 Console.WriteLine("(The coordinate must be an open coordinate)");
                 letterCoordinate = Console.ReadLine();
-            } while (letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate--) && letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate++));
-            nextCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
-            return nextCoordinate;
+                nextColumnCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
+            } while (BoardValidator(previousRowCoordinate, nextColumnCoordinate) != "Valid");
+            return nextColumnCoordinate;
         }
         public void BoardResetSwitch(bool resetboard)
         {
@@ -176,6 +192,18 @@ namespace Battleship_
         {
             Console.WriteLine("Please enter your name:");
             playername = Console.ReadLine();
+        }
+        public string BoardValidator(int rowCoordinate, int columnCoordinate)
+        {
+            if (Map.radar[rowCoordinate, columnCoordinate] != "| . |")
+            {
+                Console.WriteLine("Not a valid coordinate");
+                return "NV";
+            }
+            else
+            {
+                return "Valid";
+            }
         }
     }
 }
