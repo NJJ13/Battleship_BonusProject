@@ -9,13 +9,13 @@ namespace Battleship_
     class Player
     {
         public string playername;
-        GameBoard Map = new GameBoard();
-        GameBoard EnemyMap = new GameBoard();
-        List<Ship> Fleet = new List<Ship>();
-        Ship Destroyer = new Ship("Destroyer", 2, "| D |");
-        Ship Submarine = new Ship("Submarine", 3, "| S |");
-        Ship Battleship = new Ship("Battleship", 4, "| B |");
-        Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
+        public GameBoard Map = new GameBoard();
+        public GameBoard EnemyMap = new GameBoard();
+        public List<Ship> Fleet = new List<Ship>();
+        public Ship Destroyer = new Ship("Destroyer", 2, "| D |");
+        public Ship Submarine = new Ship("Submarine", 3, "| S |");
+        public Ship Battleship = new Ship("Battleship", 4, "| B |");
+        public Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
 
         public Player()
         {
@@ -62,7 +62,7 @@ namespace Battleship_
             {
                 do
                 {
-                    Console.WriteLine("Where would you like to place your " + Fleet[i].shipName + "?");
+                    Console.WriteLine("Where would you like to place your " + Fleet[i].shipName + "? It will take up " + Fleet[i].shipSize + " spaces.");
                     position = PositionSelecter(Fleet[i]);
                     DisplayMap();
                     rowCoordinate = SelectRowCoordinate();
