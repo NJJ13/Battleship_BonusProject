@@ -8,6 +8,7 @@ namespace Battleship_
 {
     class Player
     {
+        public string playername;
         GameBoard Map = new GameBoard();
         GameBoard EnemyMap = new GameBoard();
         List<Ship> Fleet = new List<Ship>();
@@ -24,6 +25,7 @@ namespace Battleship_
             Fleet.Add(Submarine);
             Fleet.Add(Battleship);
             Fleet.Add(AircraftCarrier);
+            PlaceShips();
         }
 
         public void FireShot()
@@ -37,6 +39,7 @@ namespace Battleship_
         }
         public void PlaceShips()
         {
+            bool resetBoard = false;
             string position;
             int rowCoordinate;
             int columnCoordinate;
@@ -55,7 +58,7 @@ namespace Battleship_
 
                 for (int j = 1; j < Fleet[i].shipSize; j++)
                 {
-                    do
+                    for (int k = 0; k < 11; k++)
                     {
                         DisplayMap();
                         if (position == "H")
@@ -66,9 +69,27 @@ namespace Battleship_
                         {
                             rowCoordinate = SelectNextRowCoordinate(rowCoordinate);
                         }
-                    } while (Map.radar[rowCoordinate, columnCoordinate] != "| . |");
+                        if (Map.radar[rowCoordinate, columnCoordinate] == "| . |")
+                        {
+                            break;
+                        }
+                        if (k == 10)
+                        {
+                            Console.WriteLine("It looks like you're struggling to place your ships. The board will be reset)");
+                            j = Fleet[i].shipSize++;
+                            i = Fleet.Count;
+                            BoardResetSwitch(resetBoard);
+                            break;
+                        }
+                    }
+                    
                     Map.radar[rowCoordinate, columnCoordinate] = Fleet[i].shipAbbreviation;
                 }
+            }
+            if (resetBoard == true)
+            {
+                Map.ResetBoard();
+                PlaceShips();
             }
         }
         public string PositionSelecter(Ship ship)
@@ -131,6 +152,15 @@ namespace Battleship_
             } while (letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate--) && letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate++));
             nextCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
             return nextCoordinate;
+        }
+        public void BoardResetSwitch(bool resetboard)
+        {
+            resetboard = true;
+        }
+        public void WritePlayerName()
+        {
+            Console.WriteLine("Please enter your name:");
+            playername = Console.ReadLine();
         }
     }
 }

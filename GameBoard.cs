@@ -299,5 +299,9 @@ namespace Battleship_
                 Console.WriteLine("This coordinate can not be selected.");
             }
         }
+        public void ResetBoard()
+        {
+            CreateBoard();
+        }
     }
 }
