@@ -184,5 +184,120 @@ namespace Battleship_
                 return 0;
             }
         }
+        public string NumbertoLetterCoordinate(int number)
+        {
+            string letterCoordinate;
+            if (number == 1)
+            {
+                letterCoordinate = "A";
+                return letterCoordinate;
+            }
+            else if (number == 2)
+            {
+                letterCoordinate = "B";
+                return letterCoordinate;
+            }
+            else if (number == 3)
+            {
+                letterCoordinate = "C";
+                return letterCoordinate;
+            }
+            else if (number == 4)
+            {
+                letterCoordinate = "D";
+                return letterCoordinate;
+            }
+            else if (number == 5)
+            {
+                letterCoordinate = "E";
+                return letterCoordinate;
+            }
+            else if (number == 6)
+            {
+                letterCoordinate = "F";
+                return letterCoordinate;
+            }
+            else if (number == 7)
+            {
+                letterCoordinate = "G";
+                return letterCoordinate;
+            }
+            else if (number == 8)
+            {
+                letterCoordinate = "H";
+                return letterCoordinate;
+            }
+            else if (number == 9)
+            {
+                letterCoordinate = "I";
+                return letterCoordinate;
+            }
+            else if (number == 10)
+            {
+                letterCoordinate = "J";
+                return letterCoordinate;
+            }
+            else if (number == 11)
+            {
+                letterCoordinate = "K";
+                return letterCoordinate;
+            }
+            else if (number == 12)
+            {
+                letterCoordinate = "L";
+                return letterCoordinate;
+            }
+            else if (number == 13)
+            {
+                letterCoordinate = "M";
+                return letterCoordinate;
+            }
+            else if (number == 14)
+            {
+                letterCoordinate = "N";
+                return letterCoordinate;
+            }
+            else if (number == 15)
+            {
+                letterCoordinate = "O";
+                return letterCoordinate;
+            }
+            else if (number == 16)
+            {
+                letterCoordinate = "P";
+                return letterCoordinate;
+            }
+            else if (number == 17)
+            {
+                letterCoordinate = "Q";
+                return letterCoordinate;
+            }
+            else if (number == 18)
+            {
+                letterCoordinate = "R";
+                return letterCoordinate;
+            }
+            else if (number == 19)
+            {
+                letterCoordinate = "S";
+                return letterCoordinate;
+            }
+            else if (number == 20)
+            {
+                letterCoordinate = "T";
+                return letterCoordinate;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        public void CoordinateValidator(int rowCoordinate, int columnCoordinate)
+        {
+            if (radar[rowCoordinate, columnCoordinate] != "| . |")
+            {
+                Console.WriteLine("This coordinate can not be selected.");
+            }
+        }
     }
 }

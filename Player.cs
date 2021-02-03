@@ -11,10 +11,10 @@ namespace Battleship_
         GameBoard Map = new GameBoard();
         GameBoard EnemyMap = new GameBoard();
         List<Ship> Fleet = new List<Ship>();
-        Ship Destroyer = new Ship("Destroyer", 2, "D");
-        Ship Submarine = new Ship("Submarine", 3, "S");
-        Ship Battleship = new Ship("Battleship", 4, "B");
-        Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "A");
+        Ship Destroyer = new Ship("Destroyer", 2, "| D |");
+        Ship Submarine = new Ship("Submarine", 3, "| S |");
+        Ship Battleship = new Ship("Battleship", 4, "| B |");
+        Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
 
         public Player()
         {
@@ -37,25 +37,37 @@ namespace Battleship_
         }
         public void PlaceShips()
         {
+            string position;
+            int rowCoordinate;
+            int columnCoordinate;
             for (int i = 0; i < Fleet.Count; i++)
             {
-                Console.WriteLine("Where would you like to place your " + Fleet[i].shipName + "?");
-                string position = PositionSelecter(Fleet[i]);
-                DisplayMap();
-                string numberCoordinate = SelectRowCoordinate();
-                int rowCoordinate = int.Parse(numberCoordinate);
-                string letterCoordinate = SelectColumnCoordinate();
-                int columnCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
-                Map.radar[rowCoordinate, columnCoordinate] = Fleet[i].shipAbbreviation;
-                
-                if (position == "H")
+                do
                 {
-                    string direction;
+                    Console.WriteLine("Where would you like to place your " + Fleet[i].shipName + "?");
+                    position = PositionSelecter(Fleet[i]);
+                    DisplayMap();
+                    rowCoordinate = SelectRowCoordinate();
+                    columnCoordinate = SelectColumnCoordinate(Map);
+                    Map.CoordinateValidator(rowCoordinate, columnCoordinate);
+                } while (Map.radar[rowCoordinate, columnCoordinate] != "| . |");
+                Map.radar[rowCoordinate, columnCoordinate] = Fleet[i].shipAbbreviation;
+
+                for (int j = 1; j < Fleet[i].shipSize; j++)
+                {
                     do
                     {
-                        Console.WriteLine("Would you like the ships position to increase or decrease from current position? I or D?");
-                        direction = Console.ReadLine();
-                    } while (direction != "I" && direction != "D"); 
+                        DisplayMap();
+                        if (position == "H")
+                        {
+                            columnCoordinate = SelectNextColumnCoordinate(columnCoordinate);
+                        }
+                        if (position == "V")
+                        {
+                            rowCoordinate = SelectNextRowCoordinate(rowCoordinate);
+                        }
+                    } while (Map.radar[rowCoordinate, columnCoordinate] != "| . |");
+                    Map.radar[rowCoordinate, columnCoordinate] = Fleet[i].shipAbbreviation;
                 }
             }
         }
@@ -69,7 +81,7 @@ namespace Battleship_
             } while (position != "H" && position != "V");
             return position;
         }
-        public string SelectRowCoordinate()
+        public int SelectRowCoordinate()
         {
             string numberCoordinate;
             do
@@ -78,20 +90,47 @@ namespace Battleship_
                 numberCoordinate = Console.ReadLine();
 
             } while (numberCoordinate != "1" && numberCoordinate != "2" && numberCoordinate != "3" && numberCoordinate != "4" && numberCoordinate != "5" && numberCoordinate != "6" && numberCoordinate != "7" && numberCoordinate != "8" && numberCoordinate != "9" && numberCoordinate != "10" && numberCoordinate != "11" && numberCoordinate != "12" && numberCoordinate != "13" && numberCoordinate != "14" && numberCoordinate != "15" && numberCoordinate != "16" && numberCoordinate != "17" && numberCoordinate != "18" && numberCoordinate != "19" && numberCoordinate != "20");
-            return numberCoordinate;
+            return int.Parse(numberCoordinate);
         }
-        public string SelectColumnCoordinate()
+        public int SelectColumnCoordinate(GameBoard board)
         {
             string letterCoordinate;
+            int letterNumerical;
             do
             {
                 Console.WriteLine("Please select the column coordinate: A-T");
                 letterCoordinate = Console.ReadLine();
 
             } while (letterCoordinate != "A" && letterCoordinate != "B" && letterCoordinate != "C" && letterCoordinate != "D" && letterCoordinate != "E" && letterCoordinate != "F" && letterCoordinate != "G" && letterCoordinate != "H" && letterCoordinate != "I" && letterCoordinate != "J" && letterCoordinate != "K" && letterCoordinate != "L" && letterCoordinate != "M" && letterCoordinate != "N" && letterCoordinate != "O" && letterCoordinate != "P" && letterCoordinate != "Q" && letterCoordinate != "R" && letterCoordinate != "S" && letterCoordinate != "T");
-            return letterCoordinate;
+            letterNumerical = board.LettersToNumberCoordinate(letterCoordinate);
+            return letterNumerical;
         }
-
-
+        public int SelectNextRowCoordinate(int previousRowCoordinate)
+        {
+            string numberCoordinate;
+            int nextCoordinate;
+            do
+            {
+                Console.WriteLine("Please select the next consecutive row: " + previousRowCoordinate-- + " or " + previousRowCoordinate++);
+                Console.WriteLine("(The coordinate must be an open coordinate)");
+                numberCoordinate = Console.ReadLine();
+                nextCoordinate = int.Parse(numberCoordinate);
+                 
+            } while (nextCoordinate != previousRowCoordinate-- && nextCoordinate != previousRowCoordinate++);
+            return nextCoordinate;
+        }
+        public int SelectNextColumnCoordinate(int previousColumnCoordinate)
+        {
+            string letterCoordinate;
+            int nextCoordinate;
+            do
+            {
+                Console.WriteLine("Please select the next consecutive column: " + Map.NumbertoLetterCoordinate(previousColumnCoordinate--) + " or " + Map.NumbertoLetterCoordinate(previousColumnCoordinate++));
+                Console.WriteLine("(The coordinate must be an open coordinate)");
+                letterCoordinate = Console.ReadLine();
+            } while (letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate--) && letterCoordinate != Map.NumbertoLetterCoordinate(previousColumnCoordinate++));
+            nextCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
+            return nextCoordinate;
+        }
     }
 }
