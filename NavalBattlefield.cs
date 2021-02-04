@@ -11,6 +11,7 @@ namespace Battleship_
         public Player Player1 = new Player();
         public Player Player2 = new Player();
         public bool Turn;
+        public bool restartGame;
         public NavalBattlefield()
         {
             WelcomeMessage();
@@ -21,7 +22,19 @@ namespace Battleship_
 
         public void RunGame()
         {
-
+            while (Player1.fleetStrength != 0 && Player2.fleetStrength != 0)
+            {
+                RunTurn();
+                Console.Clear();
+            }
+            if(Player1.fleetStrength == 0)
+            {
+                EndGameMessage(Player2);
+            }
+            if (Player2.fleetStrength == 0)
+            {
+                EndGameMessage(Player1);
+            }
         }
         public void RunTurn()
         {
@@ -92,7 +105,7 @@ namespace Battleship_
                 Console.WriteLine(attackingPlayer + " hit the shot.");
                 attackingPlayer.EnemyMap.radar[fireRow, fireColumn] = "| H |";
                 defendingPlayer.Map.radar[fireRow, fireColumn] = "| H |";
-                attackingPlayer.score++;
+                defendingPlayer.fleetStrength--;
             }
             attackingPlayer.DisplayEnemyMap();
             DisplayMapChoice(attackingPlayer);
@@ -129,6 +142,34 @@ namespace Battleship_
         public void EndGameMessage(Player winner)
         {
             Console.WriteLine(winner.playername + " has won the game.");
+            Console.WriteLine("Would you like to play again Y/N");
+            string response = Console.ReadLine();
+            if (response == "Y" || response == "Yes" || response == "yes" || response == "y")
+            {
+                restartGame = true;
+            }
+            else
+            {
+                restartGame = false;
+                Console.WriteLine("Thanks for playing Battleship!");
+            }
+        }
+        public void RestartGame(bool restartGame)
+        {
+            if (restartGame == true)
+            {
+                Player1.Map.ResetBoard();
+                Player1.EnemyMap.ResetBoard();
+                Player1.PopulateFleetStrength();
+                Player1.PlaceShips();
+                Console.Clear();
+                Player2.Map.ResetBoard();
+                Player2.EnemyMap.ResetBoard();
+                Player2.PopulateFleetStrength();
+                Player2.PlaceShips();
+                RunGame();
+
+            }
         }
     }
 }

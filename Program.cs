@@ -10,7 +10,9 @@ namespace Battleship_
     {
         static void Main(string[] args)
         {
-            Player player = new Player();
+            NavalBattlefield navalBattlefield = new NavalBattlefield();
+            navalBattlefield.RunGame();
+            navalBattlefield.RestartGame(navalBattlefield.restartGame);
             Console.ReadLine();
         }
     }
