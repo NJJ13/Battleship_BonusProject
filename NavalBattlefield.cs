@@ -13,6 +13,7 @@ namespace Battleship_
         public bool Turn;
         public NavalBattlefield()
         {
+            WelcomeMessage();
             Player1 = new Player();
             Player2 = new Player();
             FirstTurnSelector();
@@ -25,6 +26,28 @@ namespace Battleship_
         public void TurnSwitch()
         {
             Turn = !Turn;
+        }
+        public Player DetermineAttacker(bool Turn)
+        {
+            if (Turn == true)
+            {
+                return Player1;
+            }
+            else
+            {
+                return Player2;
+            }
+        }
+        public Player DetermineDefender(bool Turn)
+        {
+            if(Turn == true)
+            {
+                return Player2;
+            }
+            else
+            {
+                return Player1;
+            }
         }
         public void FirstTurnSelector()
         {
@@ -67,6 +90,7 @@ namespace Battleship_
                 attackingPlayer.score++;
             }
             attackingPlayer.DisplayEnemyMap();
+            DisplayMapChoice(attackingPlayer);
         }
         public bool ShotValidator(Player player, int row, int column)
         {
@@ -82,6 +106,23 @@ namespace Battleship_
                 Console.WriteLine("A shot has already been fired at this coordinate. Choose a different coordinate.");
                 return valid;
             }
+        }
+        public void DisplayMapChoice(Player player)
+        {
+            Console.WriteLine("Would you like to view your map? Y/N");
+            string response = Console.ReadLine();
+            if (response == "Y" || response == "Yes" || response == "yes" || response == "y")
+            {
+                player.Map.DisplayBoard();   
+            }
+        }
+        public void WelcomeMessage()
+        {
+            Console.WriteLine("Welcome to Battleship!");
+            Console.WriteLine("Each player will get a chance to place their ships before the battle commences.");
+            Console.WriteLine("The first turn will be randomly selected, from there, each player will take turns firing shots at their opponents board.");
+            Console.WriteLine("A winner will be determined by the first player to sink the other players ship.");
+            Console.WriteLine("Let's get started!");
         }
 
     }
