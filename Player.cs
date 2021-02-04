@@ -101,11 +101,7 @@ namespace Battleship_
                     Map.radar[rowCoordinate, columnCoordinate] = Fleet[i].shipAbbreviation;
                 }
             }
-            if (resetBoard == true)
-            {
-                Map.ResetBoard();
-                PlaceShips();
-            }
+            CheckBoardReset(resetBoard, Map);
         }
         public string PositionSelecter(Ship ship)
         {
@@ -187,6 +183,14 @@ namespace Battleship_
         public void BoardResetSwitch(bool resetboard)
         {
             resetboard = true;
+        }
+        public void CheckBoardReset(bool resetBoard, GameBoard board)
+        {
+            if (resetBoard == true)
+            {
+                board.ResetBoard();
+                PlaceShips();
+            }
         }
         public void WritePlayerName()
         {
