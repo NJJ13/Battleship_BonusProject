@@ -148,11 +148,11 @@ namespace Battleship_
             do
             {
                 Console.WriteLine("Please select the next consecutive row:");
-                if((previousRowCoordinate-1) > 0)
+                if ((previousRowCoordinate - 1) > 0 && Map.radar[(previousRowCoordinate - 1), previousColumnCoordinate] == "| . |")
                 {
                     Console.WriteLine((previousRowCoordinate - 1));
                 }
-                if ((previousRowCoordinate+1) < 21)
+                if ((previousRowCoordinate+1) < 21 && Map.radar[(previousRowCoordinate + 1), previousColumnCoordinate] == "| . |")
                 {
                     Console.WriteLine((previousRowCoordinate + 1));
                 }
@@ -170,11 +170,11 @@ namespace Battleship_
             do
             {
                 Console.WriteLine("Please select the next consecutive column: " + Map.NumbertoLetterCoordinate((previousColumnCoordinate-1)) + " or " + Map.NumbertoLetterCoordinate((previousColumnCoordinate+1)));
-                if ((previousColumnCoordinate - 1) > 0)
+                if ((previousColumnCoordinate - 1) > 0 && Map.radar[previousRowCoordinate, (previousColumnCoordinate - 1)] == "| . |")
                 {
                     Console.WriteLine(Map.NumbertoLetterCoordinate((previousColumnCoordinate - 1)));
                 }
-                if ((previousColumnCoordinate + 1) < 21)
+                if ((previousColumnCoordinate + 1) < 21 && Map.radar[previousRowCoordinate, (previousColumnCoordinate + 1)] == "| . |")
                 {
                     Console.WriteLine(Map.NumbertoLetterCoordinate((previousColumnCoordinate + 1)));
                 }
