@@ -159,7 +159,7 @@ namespace Battleship_
                 numberRowCoordinate = Console.ReadLine();
                 nextRowCoordinate = int.Parse(numberRowCoordinate);
                 
-            } while (BoardValidator(board, nextRowCoordinate, previousColumnCoordinate) != "Valid");
+            } while (BoardValidator(board, nextRowCoordinate, previousColumnCoordinate) == false);
             return nextRowCoordinate;
         }
         public int SelectNextColumnCoordinate(GameBoard board, int previousRowCoordinate, int previousColumnCoordinate)
@@ -180,7 +180,7 @@ namespace Battleship_
                 Console.WriteLine("(The coordinate must be an open coordinate)");
                 letterCoordinate = Console.ReadLine();
                 nextColumnCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
-            } while (BoardValidator(board, previousRowCoordinate, nextColumnCoordinate) != "Valid");
+            } while (BoardValidator(board, previousRowCoordinate, nextColumnCoordinate) == false);
             return nextColumnCoordinate;
         }
         public void BoardResetSwitch(bool resetboard)
@@ -200,16 +200,16 @@ namespace Battleship_
             Console.WriteLine("Please enter your name:");
             playername = Console.ReadLine();
         }
-        public string BoardValidator(GameBoard board, int rowCoordinate, int columnCoordinate)
+        public bool BoardValidator(GameBoard board, int rowCoordinate, int columnCoordinate)
         {
             if (board.radar[rowCoordinate, columnCoordinate] != "| . |")
             {
                 Console.WriteLine("Not a valid coordinate");
-                return "NV";
+                return false;
             }
             else
             {
-                return "Valid";
+                return true;
             }
         }
     }

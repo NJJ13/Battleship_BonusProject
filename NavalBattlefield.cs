@@ -52,7 +52,7 @@ namespace Battleship_
                 attackingPlayer.DisplayEnemyMap();
                 fireRow = attackingPlayer.FireShotRow();
                 fireColumn = attackingPlayer.FireShotColumn();
-            } while (ShotValidator(attackingPlayer, fireRow, fireColumn) == "Valid");
+            } while (ShotValidator(attackingPlayer, fireRow, fireColumn) == false);
             
             if (defendingPlayer.Map.radar[fireRow,fireColumn] == "| . |")
             {
@@ -64,23 +64,25 @@ namespace Battleship_
                 Console.WriteLine(attackingPlayer + " hit the shot.");
                 attackingPlayer.EnemyMap.radar[fireRow, fireColumn] = "| H |";
                 defendingPlayer.Map.radar[fireRow, fireColumn] = "| H |";
+                attackingPlayer.score++;
             }
             attackingPlayer.DisplayEnemyMap();
         }
-        public string ShotValidator(Player player, int row, int column)
+        public bool ShotValidator(Player player, int row, int column)
         {
-            string valid;
+            bool valid;
             if (player.EnemyMap.radar[row, column] == "| . |")
             {
-                valid = "Valid";
+                valid = true;
                 return valid;
             }
             else
             {
-                valid = "NV";
+                valid = false;
                 Console.WriteLine("A shot has already been fired at this coordinate. Choose a different coordinate.");
                 return valid;
             }
         }
+
     }
 }
