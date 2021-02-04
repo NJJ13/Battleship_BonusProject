@@ -15,6 +15,7 @@ namespace Battleship_
         {
             Player1 = new Player();
             Player2 = new Player();
+            FirstTurnSelector();
         }
 
         public void RunGame()
@@ -25,6 +26,61 @@ namespace Battleship_
         {
             Turn = !Turn;
         }
-
+        public void FirstTurnSelector()
+        {
+            Random random1 = new Random();
+            Random random2 = new Random();
+            int player1 = random1.Next(10);
+            int player2 = random2.Next(10);
+            if(player1 > player2)
+            {
+                Turn = true;
+            }
+            else
+            {
+                Turn = false;
+            }
+        }
+        public void FireShot(Player attackingPlayer, Player defendingPlayer)
+        {
+            int fireRow;
+            int fireColumn;
+            Console.WriteLine("It's " + attackingPlayer.playername + "'s turn.");
+            Console.ReadLine();
+            do
+            {
+                attackingPlayer.DisplayEnemyMap();
+                fireRow = attackingPlayer.FireShotRow();
+                fireColumn = attackingPlayer.FireShotColumn();
+            } while (ShotValidator(attackingPlayer, fireRow, fireColumn) == "Valid");
+            
+            if (defendingPlayer.Map.radar[fireRow,fireColumn] == "| . |")
+            {
+                Console.WriteLine(attackingPlayer + " missed the shot.");
+                attackingPlayer.EnemyMap.radar[fireRow, fireColumn] = "| M |";
+            }
+            else
+            {
+                Console.WriteLine(attackingPlayer + " hit the shot.");
+                attackingPlayer.EnemyMap.radar[fireRow, fireColumn] = "| H |";
+                defendingPlayer.Map.radar[fireRow, fireColumn] = "| H |";
+            }
+            attackingPlayer.DisplayEnemyMap();
+        }
+        public string ShotValidator(Player player, int row, int column)
+        {
+            string valid;
+            if (player.EnemyMap.radar[row, column] == "| . |")
+            {
+                valid = "Valid";
+                return valid;
+            }
+            else
+            {
+                valid = "NV";
+                Console.WriteLine("A shot has already been fired at this coordinate. Choose a different coordinate.");
+                return valid;
+            }
+        }
     }
 }
