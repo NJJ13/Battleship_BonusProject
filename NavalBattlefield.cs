@@ -8,8 +8,9 @@ namespace Battleship_
 {
     class NavalBattlefield
     {
-        Player Player1 = new Player();
-        Player Player2 = new Player();
+        public Player Player1 = new Player();
+        public Player Player2 = new Player();
+        public bool Turn;
         public NavalBattlefield()
         {
             Player1 = new Player();
@@ -20,5 +21,10 @@ namespace Battleship_
         {
 
         }
+        public void TurnSwitch()
+        {
+            Turn = !Turn;
+        }
+
     }
 }

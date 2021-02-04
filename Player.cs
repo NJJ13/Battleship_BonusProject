@@ -16,6 +16,7 @@ namespace Battleship_
         public Ship Submarine = new Ship("Submarine", 3, "| S |");
         public Ship Battleship = new Ship("Battleship", 4, "| B |");
         public Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
+        public int score;
 
         public Player()
         {
@@ -27,13 +28,15 @@ namespace Battleship_
             Fleet.Add(Battleship);
             Fleet.Add(AircraftCarrier);
             PlaceShips();
+            score = 0;
+            Console.Clear();
         }
 
         public int FireShotRow()
         {
             int fireRow;
             DisplayEnemyMap();
-            Console.WriteLine("Where would you like to fire your shot:");
+            Console.WriteLine(playername + ", where would you like to fire your shot?");
             fireRow = SelectRowCoordinate();
             return fireRow;
 
@@ -78,11 +81,11 @@ namespace Battleship_
                         DisplayMap();
                         if (position == "H")
                         {
-                            columnCoordinate = SelectNextColumnCoordinate(rowCoordinate, columnCoordinate);
+                            columnCoordinate = SelectNextColumnCoordinate(Map, rowCoordinate, columnCoordinate);
                         }
                         if (position == "V")
                         {
-                            rowCoordinate = SelectNextRowCoordinate(rowCoordinate, columnCoordinate);
+                            rowCoordinate = SelectNextRowCoordinate(Map, rowCoordinate, columnCoordinate);
                         }
                         if (Map.radar[rowCoordinate, columnCoordinate] == "| . |")
                         {
@@ -137,7 +140,7 @@ namespace Battleship_
             letterNumerical = board.LettersToNumberCoordinate(letterCoordinate);
             return letterNumerical;
         }
-        public int SelectNextRowCoordinate(int previousRowCoordinate, int previousColumnCoordinate)
+        public int SelectNextRowCoordinate(GameBoard board, int previousRowCoordinate, int previousColumnCoordinate)
         {
             string numberRowCoordinate;
             int nextRowCoordinate;
@@ -156,10 +159,10 @@ namespace Battleship_
                 numberRowCoordinate = Console.ReadLine();
                 nextRowCoordinate = int.Parse(numberRowCoordinate);
                 
-            } while (BoardValidator(nextRowCoordinate, previousColumnCoordinate) != "Valid");
+            } while (BoardValidator(board, nextRowCoordinate, previousColumnCoordinate) != "Valid");
             return nextRowCoordinate;
         }
-        public int SelectNextColumnCoordinate(int previousRowCoordinate, int previousColumnCoordinate)
+        public int SelectNextColumnCoordinate(GameBoard board, int previousRowCoordinate, int previousColumnCoordinate)
         {
             string letterCoordinate;
             int nextColumnCoordinate;
@@ -177,7 +180,7 @@ namespace Battleship_
                 Console.WriteLine("(The coordinate must be an open coordinate)");
                 letterCoordinate = Console.ReadLine();
                 nextColumnCoordinate = Map.LettersToNumberCoordinate(letterCoordinate);
-            } while (BoardValidator(previousRowCoordinate, nextColumnCoordinate) != "Valid");
+            } while (BoardValidator(board, previousRowCoordinate, nextColumnCoordinate) != "Valid");
             return nextColumnCoordinate;
         }
         public void BoardResetSwitch(bool resetboard)
@@ -197,9 +200,9 @@ namespace Battleship_
             Console.WriteLine("Please enter your name:");
             playername = Console.ReadLine();
         }
-        public string BoardValidator(int rowCoordinate, int columnCoordinate)
+        public string BoardValidator(GameBoard board, int rowCoordinate, int columnCoordinate)
         {
-            if (Map.radar[rowCoordinate, columnCoordinate] != "| . |")
+            if (board.radar[rowCoordinate, columnCoordinate] != "| . |")
             {
                 Console.WriteLine("Not a valid coordinate");
                 return "NV";
