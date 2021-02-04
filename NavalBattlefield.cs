@@ -23,6 +23,11 @@ namespace Battleship_
         {
 
         }
+        public void RunTurn()
+        {
+            FireShot(DetermineAttacker(Turn), DetermineDefender(Turn));
+            TurnSwitch();
+        }
         public void TurnSwitch()
         {
             Turn = !Turn;
@@ -94,17 +99,14 @@ namespace Battleship_
         }
         public bool ShotValidator(Player player, int row, int column)
         {
-            bool valid;
             if (player.EnemyMap.radar[row, column] == "| . |")
             {
-                valid = true;
-                return valid;
+                return true;
             }
             else
             {
-                valid = false;
                 Console.WriteLine("A shot has already been fired at this coordinate. Choose a different coordinate.");
-                return valid;
+                return false;
             }
         }
         public void DisplayMapChoice(Player player)
@@ -124,6 +126,9 @@ namespace Battleship_
             Console.WriteLine("A winner will be determined by the first player to sink the other players ship.");
             Console.WriteLine("Let's get started!");
         }
-
+        public void EndGameMessage(Player winner)
+        {
+            Console.WriteLine(winner.playername + " has won the game.");
+        }
     }
 }

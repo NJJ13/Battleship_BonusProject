@@ -16,7 +16,7 @@ namespace Battleship_
         public Ship Submarine = new Ship("Submarine", 3, "| S |");
         public Ship Battleship = new Ship("Battleship", 4, "| B |");
         public Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
-        public int score;
+        public int fleetStrength;
 
         public Player()
         {
@@ -27,8 +27,9 @@ namespace Battleship_
             Fleet.Add(Submarine);
             Fleet.Add(Battleship);
             Fleet.Add(AircraftCarrier);
+            PopulateFleetStrength();
             PlaceShips();
-            score = 0;
+            
             Console.Clear();
         }
 
@@ -210,6 +211,13 @@ namespace Battleship_
             else
             {
                 return true;
+            }
+        }
+        public void PopulateFleetStrength()
+        {
+            foreach (Ship ship in Fleet)
+            {
+                fleetStrength += ship.shipSize;
             }
         }
     }
