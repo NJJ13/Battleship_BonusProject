@@ -16,18 +16,13 @@ namespace Battleship_
         public Ship Submarine = new Ship("Submarine", 3, "| S |");
         public Ship Battleship = new Ship("Battleship", 4, "| B |");
         public Ship AircraftCarrier = new Ship("Aircraft Carrier", 5, "| A |");
-        public int fleetStrength;
 
         public Player()
         {
             WritePlayerName();
             Map = new GameBoard();
             EnemyMap = new GameBoard();
-            Fleet.Add(Destroyer);
-            Fleet.Add(Submarine);
-            Fleet.Add(Battleship);
-            Fleet.Add(AircraftCarrier);
-            PopulateFleetStrength();
+            PopulateFleet();
             PlaceShips();
             
             Console.Clear();
@@ -213,12 +208,39 @@ namespace Battleship_
                 return true;
             }
         }
-        public void PopulateFleetStrength()
+        public void PopulateFleet()
+        {
+            Fleet.Add(Destroyer);
+            Fleet.Add(Submarine);
+            Fleet.Add(Battleship);
+            Fleet.Add(AircraftCarrier);
+        }
+        public void ClearFleet()
+        {
+            if(Fleet.Count > 0)
+            {
+                foreach (Ship ship in Fleet)
+                {
+                    Fleet.Remove(ship);
+                }
+            }
+        }
+        public void HitIncrease(string coordinateString)
         {
             foreach (Ship ship in Fleet)
             {
-                fleetStrength += ship.shipSize;
+                if (ship.shipAbbreviation == coordinateString)
+                {
+                    ship.shipHits++;
+                }
+                if(ship.shipHits == ship.shipSize)
+                {
+                    Console.WriteLine(playername +"'s" + ship.shipName + " has been sunk!");
+                    Fleet.Remove(ship);
+                }
             }
+            
+            
         }
     }
 }

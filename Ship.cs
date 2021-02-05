@@ -11,12 +11,14 @@ namespace Battleship_
         public int shipSize;
         public string shipName;
         public string shipAbbreviation;
+        public int shipHits;
 
         public Ship(string name, int size, string abbreviation)
         {
             shipSize = size;
             shipName = name;
             shipAbbreviation = abbreviation;
+            shipHits = 0;
         }
     }
 }
